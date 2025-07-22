@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirecionando...</title>
+
+  <!-- Meta Pixel Code (Pode ser o Pixel do Cliente ou o Pixel do SaaS) -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script');
+    fbq('init', '762701059469722'); // Pixel ID: Pode ser do cliente ou do SaaS
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
+  <script>
+    // URL da sua API de rastreamento de leads (Node.js) para registrar cliques
+    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; 
+    
+    const TELEGRAM_USERNAME = 'gabrielajacobot'; // Nome de usuário do bot Telegram do CLIENTE
+
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    function setCookie(name, value, days = 90) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+    }
+
+    function getFbclid() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fbclid_val = urlParams.get('fbclid');
+      console.log('FBCLID encontrado na URL:', fbclid_val);
+      return fbclid_val;
+    }
+
+    function generateFbp() {
+      const timestamp = Date.now();
+      const random = Math.floor(Math.random() * 1e16);
+      return `fb.1.${timestamp}.${random}`;
+    }
+
+    function ensureFbp() {
+      let fbp = getCookie('_fbp');
+      if (!fbp) {
+        fbp = generateFbp();
+        setCookie('_fbp', fbp);
+        console.log('Novo _fbp gerado e salvo:', fbp);
+      } else {
+        console.log('_fbp existente:', fbp);
+      }
+      return fbp;
+    }
+
+    function ensureFbc(fbclid) {
+      const current = getCookie('_fbc');
+      if (current && current.endsWith(fbclid)) {
+        console.log('_fbc existente e válido:', current);
+        return current;
+      }
+
+      const timestamp = Date.now();
+      const fbc = `fb.1.${timestamp}.${fbclid}`;
+      setCookie('_fbc', fbc);
+      console.log('Novo _fbc gerado e salvo:', fbc);
+      return fbc;
+    }
+
+    async function registrarClick(referer, fbclid, fbp) { 
+      console.log('Iniciando registro de clique...');
+      console.log('Dados enviados para API:', { referer, fbclid, fbp });
+      console.log('URL da API sendo usada:', API_URL); 
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            referer: referer || '',
+            fbclid: fbclid || '',
+            fbp: fbp || '',
+            client_id: 'fbfa7d13-709f-411e-9d21-1e6925e29366' // Adiciona o client_id para rastreamento
+          })
+        });
+
+        const data = await response.json();
+        console.log('Resposta da API:', data);
+
+        if (response.ok) {
+          if (data.status === 'success') {
+            console.log('Registro de clique enviado com sucesso para a API. Click ID recebido:', data.click_id);
+            return data.click_id;
+          } else {
+            console.error('Erro ao registrar click (API response):', data.message);
+            return null; 
+          }
+        } else {
+          console.error('Erro na requisição HTTP para a API:', response.status, response.statusText);
+          console.error('Resposta de erro da API:', data);
+          return null;
+        }
+      } catch (error) {
+        console.error('Erro ao registrar click (network error):', error);
+        return null; 
+      }
+    }
+
+    (async function main() {
+      console.log('Iniciando script principal...');
+
+      const referer = document.referrer || '';
+      const fbclid = getFbclid();
+      const fbp = ensureFbp();
+
+      if (fbclid) {
+        ensureFbc(fbclid); 
+      }
+
+      console.log('Chamando registrarClick com referer:', referer, 'fbclid:', fbclid, 'e fbp:', fbp);
+      const click_id_from_api = await registrarClick(referer, fbclid, fbp);
+
+      let redirectUrl;
+      if (click_id_from_api) {
+        let cleanedClickId = click_id_from_api;
+        if (cleanedClickId.startsWith('/start ')) {
+            cleanedClickId = cleanedClickId.substring('/start '.length);
+        }
+        cleanedClickId = cleanedClickId.trim(); 
+
+        const encodedClickId = encodeURIComponent(cleanedClickId);
+        redirectUrl = `https://t.me/gabrielajacobot?start=${encodedClickId}`; // Redireciona para o bot do CLIENTE
+        console.log('Click ID obtido. Redirecionando para Telegram do cliente com click_id (codificado):', redirectUrl);
+      } else {
+        redirectUrl = `https://t.me/gabrielajacobot`; 
+        console.log('Erro ao obter Click ID. Redirecionando para Telegram do cliente sem click_id:', redirectUrl);
+      }
+      window.location.replace(redirectUrl); 
+    })();
+  </script>
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+    <p>Redirecionando você...</p>
+  </div>
+</body>
+</html>
+    
