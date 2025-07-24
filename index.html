@@ -1,755 +1,169 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AZAG System - Escolha seu Plano</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome para ícones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Favicon do AZAG System -->
-    <link rel="icon" href="Gemini_Generated_Image_yk0wlayk0wlayk0w.ico" type="image/x-icon">
-    <style>
-        /* Estilos base para um visual dark, futurista e tecnológico aprimorado */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #05070c; /* Fundo ultra-escuro */
-            color: #e0f2f7; /* Texto quase branco, levemente azulado */
-            overflow-x: hidden; /* Evita rolagem horizontal */
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Redirecionando...</title>
 
-        /* Efeito de grade de fundo animada */
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(to right, rgba(0, 255, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-            animation: gridPulse 15s infinite linear;
-            opacity: 0.3;
-            z-index: -1;
-        }
+  <!-- Meta Pixel Code (Pode ser o Pixel do Cliente ou o Pixel do SaaS) -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script');
+    fbq('init', '762701059469722'); // Pixel ID: Pode ser do cliente ou do SaaS
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
 
-        @keyframes gridPulse {
-            0% { background-position: 0 0; }
-            100% { background-position: 40px 40px; }
-        }
+  <script>
+    // URL da sua API de rastreamento de leads (Node.js) para registrar cliques
+    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; 
+    
+    const TELEGRAM_USERNAME = 'Mariaduds_bot'; // Nome de usuário do bot Telegram do CLIENTE
 
-        h1, h2, h3, h4 {
-            font-family: 'Orbitron', sans-serif; /* Fonte futurista para títulos */
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.8), 0 0 25px rgba(0, 255, 255, 0.5); /* Brilho ciano mais forte */
-            color: #00e6e6; /* Cor principal dos títulos */
-        }
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
 
-        .card-bg {
-            background-color: rgba(10, 15, 25, 0.98); /* Fundo do card quase opaco */
-            border: 1px solid #00b3b3; /* Borda ciano sutil */
-            border-radius: 1.5rem; /* Cantos mais arredondados */
-            box-shadow: 
-                0 0 35px rgba(0, 255, 255, 0.3), /* Brilho externo forte */
-                inset 0 0 20px rgba(0, 255, 255, 0.15); /* Brilho interno */
-            backdrop-filter: blur(12px); /* Efeito de vidro fosco mais intenso */
-            -webkit-backdrop-filter: blur(12px); /* Compatibilidade Safari */
-            position: relative;
-            z-index: 1;
-            padding: 2.5rem;
-        }
+    function setCookie(name, value, days = 90) {
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
+      document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
+    }
 
-        .input-field {
-            background-color: #1a202c; /* Fundo dos inputs */
-            border: 1px solid #008080; /* Borda ciano escura */
-            color: #e0f2f7; /* Texto dos inputs */
-            transition: all 0.4s ease-in-out;
-            border-radius: 0.75rem;
-            padding: 0.75rem 1rem;
-            box-shadow: inset 0 0 5px rgba(0, 255, 255, 0.1);
-        }
-        .input-field:focus {
-            border-color: #00e6e6; /* Borda ao focar */
-            box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.6), inset 0 0 10px rgba(0, 255, 255, 0.3); /* Sombra e brilho ao focar */
-            background-color: #21262d; /* Levemente mais claro ao focar */
-            outline: none; /* Remove outline padrão do navegador */
-        }
+    function getFbclid() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const fbclid_val = urlParams.get('fbclid');
+      console.log('FBCLID encontrado na URL:', fbclid_val);
+      return fbclid_val;
+    }
 
-        .btn-primary {
-            background-image: linear-gradient(to right, #00e6e6, #8a2be2); /* Gradiente ciano-roxo */
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transição mais suave */
-            box-shadow: 0 6px 20px rgba(0, 255, 255, 0.5);
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        .btn-primary:hover {
-            background-image: linear-gradient(to right, #00cccc, #7a1ad5);
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.03);
-            cursor: pointer;
-        }
+    function generateFbp() {
+      const timestamp = Date.now();
+      const random = Math.floor(Math.random() * 1e16);
+      return `fb.1.${timestamp}.${random}`;
+    }
 
-        .btn-secondary {
-            background-color: #2d3748; /* Cinza secundário mais escuro */
-            transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-            border-radius: 0.75rem;
-            border: 1px solid #4a5568;
-            font-weight: 600;
-        }
-        .btn-secondary:hover {
-            background-color: #4a5568;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            transform: translateY(-2px);
-            cursor: pointer;
-        }
+    function ensureFbp() {
+      let fbp = getCookie('_fbp');
+      if (!fbp) {
+        fbp = generateFbp();
+        setCookie('_fbp', fbp);
+        console.log('Novo _fbp gerado e salvo:', fbp);
+      } else {
+        console.log('_fbp existente:', fbp);
+      }
+      return fbp;
+    }
 
-        .btn-info {
-            background-color: #6a0dad; /* Roxo mais vibrante */
-            transition: all 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 0.75rem;
-            box-shadow: 0 5px 15px rgba(106, 13, 173, 0.5);
-            font-weight: 600;
-        }
-        .btn-info:hover {
-            background-color: #5a0ca0;
-            box-shadow: 0 8px 20px rgba(106, 13, 173, 0.8);
-            transform: translateY(-3px);
-            cursor: pointer;
-        }
+    function ensureFbc(fbclid) {
+      const current = getCookie('_fbc');
+      if (current && current.endsWith(fbclid)) {
+        console.log('_fbc existente e válido:', current);
+        return current;
+      }
 
-        .btn-success {
-            background-color: #00b300; /* Verde mais vibrante */
-            transition: all 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 0.75rem;
-            box-shadow: 0 5px 15px rgba(0, 179, 0, 0.5);
-            font-weight: 600;
-        }
-        .btn-success:hover {
-            background-color: #009900;
-            box-shadow: 0 8px 20px rgba(0, 179, 0, 0.8);
-            transform: translateY(-3px);
-            cursor: pointer;
-        }
+      const timestamp = Date.now();
+      const fbc = `fb.1.${timestamp}.${fbclid}`;
+      setCookie('_fbc', fbc);
+      console.log('Novo _fbc gerado e salvo:', fbc);
+      return fbc;
+    }
 
-        .tutorial-section {
-            background-color: rgba(26, 32, 44, 0.95); /* Fundo da seção de tutorial mais escuro */
-            border-left: 5px solid #00e6e6; /* Borda de destaque ciano mais grossa */
-            border-radius: 1.5rem;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-            padding: 2rem;
-        }
+    async function registrarClick(referer, fbclid, fbp) { 
+      console.log('Iniciando registro de clique...');
+      console.log('Dados enviados para API:', { referer, fbclid, fbp });
+      console.log('URL da API sendo usada:', API_URL); 
 
-        .tutorial-step {
-            background-color: #1a202c; /* Fundo do passo do tutorial */
-            border-radius: 1rem;
-            padding: 1.75rem;
-            margin-bottom: 1.75rem;
-            border: 1px solid #008080; /* Borda ciano escura */
-            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.15), inset 0 0 8px rgba(0, 255, 255, 0.05);
-        }
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            referer: referer || '',
+            fbclid: fbclid || '',
+            fbp: fbp || '',
+            client_id: '083076f3-b31c-43e3-9b30-d3c176b39427' // Adiciona o client_id para rastreamento
+          })
+        });
 
-        .tutorial-image {
-            border: 2px solid #00e6e6;
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
-            border-radius: 1rem;
-            transition: transform 0.3s ease;
-        }
-        .tutorial-image:hover {
-            transform: scale(1.02);
-        }
+        const data = await response.json();
+        console.log('Resposta da API:', data);
 
-        .code-block {
-            background-color: #0d1117; /* Fundo do bloco de código */
-            border: 1px solid #008080;
-            color: #00ffcc; /* Texto do código em verde ciano */
-            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Fonte monoespaçada para código */
-            font-size: 0.9rem;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            overflow-x: auto;
-            box-shadow: inset 0 0 12px rgba(0, 255, 255, 0.15);
-            line-height: 1.4;
+        if (response.ok) {
+          if (data.status === 'success') {
+            console.log('Registro de clique enviado com sucesso para a API. Click ID recebido:', data.click_id);
+            return data.click_id;
+          } else {
+            console.error('Erro ao registrar click (API response):', data.message);
+            return null; 
+          }
+        } else {
+          console.error('Erro na requisição HTTP para a API:', response.status, response.statusText);
+          console.error('Resposta de erro da API:', data);
+          return null;
         }
+      } catch (error) {
+        console.error('Erro ao registrar click (network error):', error);
+        return null; 
+      }
+    }
 
-        /* Estilo para o botão de expandir/contrair */
-        .toggle-button {
-            background-image: linear-gradient(to right, #00e6e6, #00aaff); /* Gradiente ciano-azul */
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.4);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-        .toggle-button:hover {
-            background-image: linear-gradient(to right, #00cccc, #0099e6);
-            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.6);
-            transform: translateY(-3px) scale(1.01);
-        }
+    (async function main() {
+      console.log('Iniciando script principal...');
 
-        /* Estilo para a seção de oferta PRO */
-        .pro-offer-section {
-            border: 2px solid #8a2be2; /* Borda roxa */
-            background-image: linear-gradient(to bottom right, rgba(138, 43, 226, 0.1), rgba(0, 230, 230, 0.05)); /* Gradiente sutil */
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.4), inset 0 0 10px rgba(138, 43, 226, 0.2);
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 2rem; /* Espaçamento antes do guia ManyChat */
-        }
-        .pro-offer-section h3 {
-            color: #d8b4fe; /* Tom de roxo mais claro para o título */
-            text-shadow: 0 0 10px rgba(216, 180, 254, 0.6);
-        }
-        .pro-offer-section ul li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-        .pro-offer-section ul li i {
-            font-size: 1.2em;
-            margin-right: 0.75rem;
-        }
+      const referer = document.referrer || '';
+      const fbclid = getFbclid();
+      const fbp = ensureFbp();
 
-        /* Estilos para a página de apresentação PRO indisponível */
-        .pro-unavailable-section {
-            background-color: rgba(15, 20, 30, 0.98);
-            border: 2px solid #ff4d4d; /* Borda vermelha para indisponível */
-            border-radius: 1.5rem;
-            box-shadow: 0 0 40px rgba(255, 77, 77, 0.5), inset 0 0 20px rgba(255, 77, 77, 0.2);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 3rem;
-            text-align: center;
-        }
-        .pro-unavailable-section h2 {
-            color: #ff6666; /* Título vermelho */
-            text-shadow: 0 0 20px rgba(255, 102, 102, 0.8);
-            margin-bottom: 1.5rem;
-        }
-        .pro-unavailable-section p {
-            color: #f7e0e0;
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-        }
-        .pro-unavailable-section ul {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 2rem;
-            display: inline-block; /* Para centralizar a lista */
-            text-align: left;
-        }
-        .pro-unavailable-section ul li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            font-size: 1rem;
-            color: #e0f2f7;
-        }
-        .pro-unavailable-section ul li i {
-            font-size: 1.3em;
-            margin-right: 1rem;
-            color: #ffcccc; /* Ícones em tom de vermelho claro */
-        }
-        .btn-unavailable-back {
-            background-image: linear-gradient(to right, #4CAF50, #8BC34A); /* Verde para "voltar" */
-            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
-            border: none;
-            border-radius: 1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 1rem 2.5rem;
-            font-size: 1.2rem;
-            color: white;
-        }
-        .btn-unavailable-back:hover {
-            background-image: linear-gradient(to right, #45a049, #7cb342);
-            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.8), inset 0 0 15px rgba(255, 255, 255, 0.2);
-            transform: translateY(-5px) scale(1.03);
-            cursor: pointer;
-        }
+      if (fbclid) {
+        ensureFbc(fbclid); 
+      }
 
-        /* Estilos para a tela de boas-vindas */
-        .landing-section {
-            background-color: rgba(10, 15, 25, 0.98);
-            border: 1px solid #00b3b3;
-            border-radius: 1.5rem;
-            box-shadow: 0 0 35px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 3rem;
-            text-align: center;
-        }
-        .landing-section h2 {
-            margin-bottom: 2rem;
-        }
-        .landing-section .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        .landing-section .button-group .btn-landing {
-            padding: 1.2rem 2.5rem;
-            font-size: 1.3rem;
-            border-radius: 1.2rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transition: all 0.4s ease;
-            box-shadow: 0 6px 15px rgba(0, 255, 255, 0.4);
-            color: white;
-            border: none;
-        }
-        .landing-section .button-group .btn-landing:hover {
-            transform: translateY(-5px) scale(1.03);
-            cursor: pointer;
-        }
-        .landing-section .button-group .btn-free {
-            background-image: linear-gradient(to right, #00e6e6, #00aaff);
-        }
-        .landing-section .button-group .btn-free:hover {
-            background-image: linear-gradient(to right, #00cccc, #0099e6);
-            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.6);
-        }
-        .landing-section .button-group .btn-pro-unavailable {
-            background-image: linear-gradient(to right, #ff4d4d, #ff8080); /* Vermelho para indisponível */
-            box-shadow: 0 6px 15px rgba(255, 77, 77, 0.4);
-        }
-        .landing-section .button-group .btn-pro-unavailable:hover {
-            background-image: linear-gradient(to right, #e64444, #e67373);
-            box-shadow: 0 8px 20px rgba(255, 77, 77, 0.6);
-        }
+      console.log('Chamando registrarClick com referer:', referer, 'fbclid:', fbclid, 'e fbp:', fbp);
+      const click_id_from_api = await registrarClick(referer, fbclid, fbp);
 
-
-        /* Para telas menores */
-        @media (max-width: 768px) {
-            .card-bg, .landing-section, .pro-unavailable-section {
-                padding: 1.5rem;
-                border-radius: 1rem;
-            }
-            h1 {
-                font-size: 2.2rem;
-            }
-            .toggle-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-            }
-            .tutorial-step {
-                padding: 1.25rem;
-                border-radius: 0.75rem;
-            }
-            .code-block {
-                font-size: 0.8rem;
-                padding: 1rem;
-            }
-            .landing-section .button-group .btn-landing {
-                padding: 1rem 2rem;
-                font-size: 1.1rem;
-            }
-            .pro-unavailable-section h2 {
-                font-size: 2rem;
-            }
-            .pro-unavailable-section p {
-                font-size: 1rem;
-            }
-            .btn-unavailable-back {
-                font-size: 1rem;
-                padding: 0.8rem 2rem;
-            }
+      let redirectUrl;
+      if (click_id_from_api) {
+        let cleanedClickId = click_id_from_api;
+        if (cleanedClickId.startsWith('/start ')) {
+            cleanedClickId = cleanedClickId.substring('/start '.length);
         }
-    </style>
+        cleanedClickId = cleanedClickId.trim(); 
+
+        const encodedClickId = encodeURIComponent(cleanedClickId);
+        redirectUrl = `https://t.me/Mariaduds_bot?start=${encodedClickId}`; // Redireciona para o bot do CLIENTE
+        console.log('Click ID obtido. Redirecionando para Telegram do cliente com click_id (codificado):', redirectUrl);
+      } else {
+        redirectUrl = `https://t.me/Mariaduds_bot`; 
+        console.log('Erro ao obter Click ID. Redirecionando para Telegram do cliente sem click_id:', redirectUrl);
+      }
+      window.location.replace(redirectUrl); 
+    })();
+  </script>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
-
-    <!-- Seção da Landing Page (Inicial) -->
-    <div id="landingPage" class="landing-section p-8 rounded-lg shadow-xl w-full max-w-2xl">
-        <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Bem-vindo ao AZAG System!</h2>
-        <p class="text-gray-300 mb-8 text-center">Escolha o plano que melhor se adapta às suas necessidades e comece a turbinar seus resultados.</p>
-        <div class="button-group">
-            <button id="btnFree" class="btn-landing btn-free">
-                <i class="fas fa-rocket mr-2"></i> Cliente FREE
-            </button>
-            <button id="btnProUnavailable" class="btn-landing btn-pro-unavailable">
-                <i class="fas fa-lock mr-2"></i> Cliente PRO (Indisponível)
-            </button>
-        </div>
-    </div>
-
-    <!-- Seção do Onboarding Free (Antigo conteúdo principal) -->
-    <div id="freeOnboardingSection" class="card-bg p-8 rounded-lg shadow-xl w-full max-w-2xl hidden">
-        <h1 class="text-3xl font-bold text-gray-100 mb-6 text-center">CADASTRO TRACKING <span class="text-blue-400">| AZAG System</span></h1>
-        <p class="text-gray-300 mb-8 text-center">Preencha as informações abaixo para configurar o acesso ao nosso sistema de rastreamento de leads e PIX.</p>
-
-        <form id="onboardingForm" class="space-y-6">
-            <div class="relative">
-                <label for="client_name" class="block text-sm font-medium text-gray-300 mb-1">Nome do Cliente/Empresa:</label>
-                <div class="flex items-center">
-                    <input type="text" id="client_name" name="client_name" required
-                           class="input-field mt-1 block w-full px-4 py-2 rounded-md shadow-sm focus:ring sm:text-sm">
-                </div>
-            </div>
-            <div class="relative">
-                <label for="telegram_bot_username" class="block text-sm font-medium text-gray-300 mb-1">Username do Bot Telegram (ex: @meubot_bot):</label>
-                <div class="flex items-center">
-                    <input type="text" id="telegram_bot_username" name="telegram_bot_username" required
-                           class="input-field mt-1 block w-full px-4 py-2 rounded-md shadow-sm focus:ring sm:text-sm">
-                </div>
-            </div>
-            <div class="relative">
-                <label for="pushinpay_token" class="block text-sm font-medium text-gray-300 mb-1">Token da PushinPay (do seu cliente):</label>
-                <div class="flex items-center">
-                    <input type="text" id="pushinpay_token" name="pushinpay_token" required
-                           class="input-field mt-1 block w-full px-4 py-2 rounded-md shadow-sm focus:ring sm:text-sm">
-                </div>
-                <p class="mt-1 text-xs text-gray-400">Este é o token de API do seu cliente na PushinPay. Ele será usado para gerar os PIX na conta dele.</p>
-            </div>
-            <div class="relative">
-                <label for="meta_pixel_id" class="block text-sm font-medium text-gray-300 mb-1">ID do Pixel da Meta (Facebook Pixel ID):</label>
-                <div class="flex items-center">
-                    <input type="text" id="meta_pixel_id" name="meta_pixel_id" required
-                           class="input-field mt-1 block w-full px-4 py-2 rounded-md shadow-sm focus:ring sm:text-sm">
-                </div>
-                <p class="mt-1 text-xs text-gray-400">Este campo é obrigatório.</p>
-            </div>
-            <div class="relative">
-                <label for="meta_conversion_api_token" class="block text-sm font-medium text-gray-300 mb-1">Token da API de Conversões da Meta:</label>
-                <div class="flex items-center">
-                    <input type="text" id="meta_conversion_api_token" name="meta_conversion_api_token" required
-                           class="input-field mt-1 block w-full px-4 py-2 rounded-md shadow-sm focus:ring sm:text-sm">
-                </div>
-                <p class="mt-1 text-xs text-gray-400">Este campo é obrigatório.</p>
-            </div>
-
-            <button type="submit"
-                    class="btn-primary w-full flex justify-center py-3 px-4 rounded-md shadow-lg text-lg font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 ease-in-out">
-                <i class="fas fa-rocket mr-2"></i> Onboardar Cliente
-            </button>
-        </form>
-
-        <div id="results" class="mt-8 p-6 card-bg rounded-md hidden border border-gray-700">
-            <h2 class="text-2xl font-bold text-gray-100 mb-4 text-center">Configuração Concluída! <i class="fas fa-check-circle text-green-500 ml-2"></i></h2>
-            <p class="text-gray-300 mb-2">Seu **Client ID** é: <code class="font-mono bg-yellow-700 text-yellow-100 p-1 rounded" id="clientIdDisplay"></code></p>
-            <p class="text-gray-300 mb-4">Agora siga os passos abaixo para finalizar as configurações do seu ManyChat:</p>
-
-            <div class="space-y-4">
-                <div>
-                    <h3 class="font-semibold text-gray-100">1. Pressel HTML Personalizada:</h3>
-                    <p class="text-sm text-gray-400 mb-2">Copie o código abaixo e salve como `index.html` para sua pressel. Ele já contém seu Pixel ID e bot do Telegram.</p>
-                    <button id="getPresselHtmlBtn" class="btn-success w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-                        <i class="fas fa-code mr-2"></i> Obter Código da Pressel HTML
-                    </button>
-                    <pre id="presselHtmlCode" class="code-block mt-2 hidden"></pre>
-                    <button id="copyPresselHtmlBtn" class="btn-secondary mt-2 w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-600 transition duration-150 ease-in-out hidden">
-                        <i class="fas fa-copy mr-2"></i> Copiar Código da Pressel
-                    </button>
-                </div>
-
-                <div>
-                    <h3 class="font-semibold text-gray-100">2. Configurações do ManyChat (Fluxos):</h3>
-                    <p class="text-sm text-gray-400 mb-2">Siga as instruções abaixo para configurar os blocos de requisição externa no seu ManyChat. Elas já estão personalizadas para você.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Seção de Tutorial Visual para Configuração do ManyChat -->
-        <div id="tutorialSection" class="mt-10 p-6 tutorial-section rounded-lg shadow-xl hidden">
-            <h2 class="text-2xl font-bold text-gray-100 mb-4 text-center">Guia de Configuração no ManyChat <i class="fas fa-robot text-blue-400 ml-2"></i></h2>
-            <p class="text-gray-300 mb-6 text-center">Siga este passo a passo para configurar corretamente seu ManyChat e integrar com o AZAG System.</p>
-            
-            <button id="toggleTutorial" class="toggle-button w-full mb-6">
-                <i class="fas fa-chevron-down mr-2"></i> Expandir Guia de Configuração
-            </button>
-
-            <div id="tutorialContent" class="hidden space-y-8">
-                <!-- Passo 1: Importar o Fluxo Completo -->
-                <div class="tutorial-step">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2"><i class="fas fa-download mr-2 text-blue-400"></i> 1. Importe o Fluxo Completo AZAG System no ManyChat</h3>
-                    <p class="text-gray-300 mb-4">Para facilitar sua integração, criamos um fluxo único que contém todas as requisições e ações necessárias para o AZAG System. Clique no botão abaixo para importar este fluxo diretamente para o seu ManyChat:</p>
-                    
-                    <a href="https://app.manychat.com/flowPlayerPage?share_hash=2960024_fd5120a02f06e5b0351c905be560a011d7caa6e6" target="_blank" class="btn-info w-full py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition duration-150 ease-in-out block text-center mb-3">
-                        <i class="fas fa-copy mr-2"></i> Importar Fluxo Completo AZAG System
-                    </a>
-
-                    <p class="text-gray-400 text-sm mb-2">**Visualização do Fluxo Completo:**</p>
-                    <div class="flex justify-center mb-4">
-                        <iframe width="620" height="385" src="https://app.manychat.com/flowPlayerEmbed?share_hash=2960024_fd5120a02f06e5b0351c905be560a011d7caa6e6" allowFullScreen class="rounded-lg shadow-lg border border-gray-700"></iframe>
-                    </div>
-                    <p class="text-gray-400 text-sm mb-1">Após clicar em "Importar Fluxo Completo AZAG System", o ManyChat será aberto com o fluxo carregado. Este fluxo já contém todas as requisições de API e ações que detalharemos nos próximos passos.</p>
-                    <p class="text-gray-400 text-sm mt-3">**Importante:** Após a importação, é fundamental clicar no botão <code class="bg-gray-700 p-1 rounded">Publish</code> (Publicar) no canto superior direito do ManyChat para salvar e ativar o fluxo.</p>
-                </div>
-
-                <!-- Passo 2: Detalhes das Requisições de API (parte do fluxo importado) -->
-                <div class="tutorial-step">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2"><i class="fas fa-cogs mr-2 text-blue-400"></i> 2. Entendendo as Requisições de API no Fluxo (Já Importadas)</h3>
-                    <p class="text-gray-300 mb-4">O fluxo que você importou contém três requisições de API principais. Elas são blocos de "Requisição Externa" que se comunicam com o AZAG System. Não é necessário criá-las, apenas entender como funcionam:</p>
-                    
-                    <!-- Requisição: Ajustar Valor PIX -->
-                    <div class="bg-gray-800 p-4 rounded-md mb-6 border border-gray-700">
-                        <h4 class="text-lg font-semibold text-gray-100 mb-2">A) Ajustar Valor PIX</h4>
-                        <p class="text-gray-400 text-sm mb-3">Esta ação é usada para dividir o campo `valor venda` por 100 e armazenar o resultado em `valor em reais`. Isso é útil para converter valores de centavos para reais, por exemplo.</p>
-                        <p class="text-gray-400 text-sm mb-2">**Configuração da Ação "Definir campo do usuário" no ManyChat (dentro do fluxo importado):**</p>
-                        <img src="https://i.postimg.cc/289VkdRJ/Captura-de-Tela-2025-07-23-a-s-18-06-04.png" alt="" class="w-full h-auto rounded-md tutorial-image mb-2">
-                        <p class="text-xs text-gray-500 mb-2">Captura de Tela 2025-07-23 às 18.06.04.png</p>
-                        <p class="text-gray-400 text-sm mb-1">**Ação:** <code class="bg-gray-700 p-1 rounded text-yellow-100">Definir campo do usuário</code></p>
-                        <p class="text-gray-400 text-sm mb-1">**Campo:** <code class="bg-gray-700 p-1 rounded text-yellow-100">valor em reais</code></p>
-                        <p class="text-gray-400 text-sm mb-1">**Valor:** <code class="bg-gray-700 p-1 rounded text-yellow-100">{{valor venda}}/100</code></p>
-                    </div>
-
-                    <!-- Requisição: Gerar Pagamento -->
-                    <div class="bg-gray-800 p-4 rounded-md mb-6 border border-gray-700">
-                        <h4 class="text-lg font-semibold text-gray-100 mb-2">B) Gerar Pagamento (PIX)</h4>
-                        <p class="text-gray-400 text-sm mb-3">Este bloco de "Requisição Externa" é responsável por gerar um código PIX e notificar o AZAG System. Ele é geralmente usado antes de apresentar o PIX ao seu cliente no ManyChat.</p>
-                        <p class="text-gray-400 text-sm mb-2">**Configuração da Requisição Externa no ManyChat (dentro do fluxo importado):**</p>
-                        <img src="https://i.postimg.cc/7ZTYqpNG/Captura-de-Tela-2025-07-23-a-s-18-06-50.png" alt="" class="w-full h-auto rounded-md tutorial-image mb-2">
-                        <p class="text-xs text-gray-500 mb-2">Captura de Tela 2025-07-23 às 18.06.50.png</p>
-                        <p class="text-gray-400 text-sm mb-1">**URL:** <code class="bg-gray-700 p-1 rounded text-yellow-100">https://lead-tracker-api-production.up.railway.app/api/registerPix</code></p>
-                        <p class="text-gray-400 text-sm mb-1">**Tipo de Pedido:** <code class="bg-gray-700 p-1 rounded text-yellow-100">POST</code></p>
-                        <p class="text-gray-400 text-sm mb-1">**Corpo da Solicitação (JSON):**</p>
-                        <pre class="code-block mb-2"><code>{
-  "click_id": "{{click_id}}",
-  "pix_id": "{{$.id}}",
-  "pix_value": "{{valor em reais}}",
-  "secretKey": "12341"
-}</code></pre>
-                        <p class="text-sm text-gray-500">**Atenção ao `click_id`:** Este campo é crucial para o rastreamento. Ele já deve estar configurado no fluxo. Se você usa anúncios do Facebook, a variável `{{ad_id}}` é ideal. Caso contrário, `{{flow_json.click_id}}` funciona perfeitamente.</p>
-                        <p class="text-sm text-gray-500">Mapeie a resposta da API para os campos personalizados: `$.id` (para o ID do PIX) e `$.qr_code` (para o QR Code do PIX). Estes mapeamentos já vêm prontos no fluxo importado.</p>
-                    </div>
-
-                    <!-- Requisição: Confirmar Pagamento -->
-                    <div class="bg-gray-800 p-4 rounded-md mb-6 border border-gray-700">
-                        <h4 class="text-lg font-semibold text-gray-100 mb-2">C) Confirmar Pagamento</h4>
-                        <p class="text-gray-400 text-sm mb-3">Este bloco de "Requisição Externa" notifica o AZAG System de que um pagamento foi confirmado. Ele é ideal para ser usado após a identificação de um PIX pago (por exemplo, quando sua plataforma de pagamento envia um webhook).</p>
-                        <p class="text-gray-400 text-sm mb-2">**Configuração da Requisição Externa no ManyChat (dentro do fluxo importado):**</p>
-                        <img src="https://i.postimg.cc/vmsMbDBk/Captura-de-Tela-2025-07-23-a-s-18-07-43.png" alt="" class="w-full h-auto rounded-md tutorial-image mb-2">
-                        <p class="text-xs text-gray-500 mb-2">Captura de Tela 2025-07-23 às 18.07.43.png</p>
-                        <p class="text-gray-400 text-sm mb-1">**URL:** <code class="bg-gray-700 p-1 rounded text-yellow-100">https://lead-tracker-api-production.up.railway.app/api/confirmPayment</code></p>
-                        <p class="text-400 text-sm mb-1">**Tipo de Pedido:** <code class="bg-gray-700 p-1 rounded text-yellow-100">POST</code></p>
-                        <p class="text-400 text-sm mb-1">**Corpo da Solicitação (JSON):**</p>
-                        <pre class="code-block mb-2"><code>{
-  "click_id": "{{click_id}}",
-  "conversion_value": "{{valor em reais}}",
-  "secretKey": "12341"
-}</code></pre>
-                        <p class="text-sm text-gray-500">Certifique-se de que <code class="bg-gray-700 p-1 rounded">click_id</code> e <code class="bg-gray-700 p-1 rounded">valor em reais</code> são os campos personalizados do ManyChat. Eles já devem estar configurados corretamente no fluxo importado.</p>
-                    </div>
-                </div>
-
-                <!-- Campos Personalizados do Usuário (Verificação) -->
-                <div class="tutorial-step">
-                    <h3 class="text-xl font-semibold text-gray-100 mb-2"><i class="fas fa-user-tag mr-2 text-blue-400"></i> 3. Verifique e Crie os Campos Personalizados (Se Necessário)</h3>
-                    <p class="text-gray-300 mb-4">Campos Personalizados são como "gavetas" no ManyChat onde guardamos informações importantes sobre seus clientes (como o valor do PIX, o status do pagamento, etc.). **Quando você importa o fluxo completo, o ManyChat geralmente cria essas "gavetas" automaticamente para você.** Mas é sempre bom dar uma olhada para ter certeza de que está tudo certo!</p>
-                    <p class="text-gray-300 mb-4">Para verificar, siga estes passos simples no seu ManyChat:</p>
-                    <ol class="list-decimal list-inside text-gray-300 text-sm space-y-2 mb-4">
-                        <li>No menu lateral esquerdo do ManyChat, clique em <code class="bg-gray-700 p-1 rounded">Settings</code> (Configurações).</li>
-                        <li>Em seguida, clique em <code class="bg-gray-700 p-1 rounded">Custom Fields</code> (Campos Personalizados).</li>
-                        <li>Você deve ver uma lista de campos. Verifique se os seguintes campos de usuário existem e se o "Tipo" (Type) está correto:</li>
-                    </ol>
-                    <ul class="list-disc list-inside text-gray-300 text-sm space-y-2 mb-4 ml-4">
-                        <li>**valor em reais**: Tipo **Number**</li>
-                        <li>**valor da venda**: Tipo **Number**</li>
-                        <li>**$.id**: Tipo **Text**</li>
-                        <li>**$.qr_code**: Tipo **Text**</li>
-                        <li>**$.status**: Tipo **Text**</li>
-                    </ul>
-                    <img src="https://i.postimg.cc/1zZzzsMn/Captura-de-Tela-2025-07-23-a-s-19-03-53.png" alt="" class="w-full h-auto rounded-md tutorial-image mb-4">
-                    <p class="text-xs text-gray-500 mb-2">Captura de Tela 2025-07-23 às 19.03.53.png</p>
-                    <p class="text-sm text-gray-400">**Se algum campo estiver faltando, você pode criá-lo manualmente:**</p>
-                    <ol class="list-decimal list-inside text-gray-300 text-sm space-y-2 mb-4">
-                        <li>Na mesma tela de <code class="bg-gray-700 p-1 rounded">Custom Fields</code>, clique no botão azul <code class="bg-gray-700 p-1 rounded">+ New User Field</code>.</li>
-                        <li>No campo 'Field Name' (Nome do Campo), digite o nome exato do campo que está faltando (ex: `valor em reais` ou `$.id`).</li>
-                        <li>Em 'Field Type' (Tipo do Campo), escolha o tipo correto (use **Number** para valores numéricos e **Text** para IDs e QR Codes).</li>
-                        <li>Clique em 'Create' (Criar).</li>
-                    </ol>
-                    <p class="text-sm text-gray-400">**Importante:** Preste muita atenção aos nomes dos campos, incluindo o `$.` para os campos `$.id`, `$.qr_code` e `$.status`. O ManyChat é sensível a isso, mas geralmente aceita o `$.` sem problemas.</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Seção de Apresentação do Plano PRO Indisponível -->
-    <div id="proUnavailablePage" class="pro-unavailable-section p-8 rounded-lg shadow-xl w-full max-w-2xl hidden">
-        <h2 class="text-3xl font-bold text-gray-100 mb-6 text-center">Plano PRO <span class="text-red-400">Indisponível no Momento</span></h2>
-        <p class="text-gray-300 mb-8 text-center">O Plano PRO do AZAG System oferece funcionalidades exclusivas para você escalar seus resultados, mas estamos aprimorando-o para uma experiência ainda mais poderosa. Em breve, ele estará disponível para revolucionar suas vendas!</p>
-        
-        <h3 class="text-2xl font-bold text-gray-100 mb-4">Recursos Exclusivos do Plano PRO:</h3>
-        <ul class="mb-8">
-            <li><i class="fas fa-chart-line mr-3"></i> Dashboard Inteligente: Visão completa e em tempo real das suas métricas de vendas e PIX.</li>
-            <li><i class="fas fa-cogs mr-3"></i> Requisições Especiais: APIs avançadas para otimizar seus fluxos e integrações.</li>
-            <li><i class="fas fa-robot mr-3"></i> Fluxos Prontos ManyChat: Templates de funis de alta conversão prontos para importar.</li>
-            <li><i class="fas fa-mask mr-3"></i> Pressel com Cloaker: Proteja seus links e garanta a integridade do seu tráfego.</li>
-            <li><i class="fas fa-layer-group mr-3"></i> Múltiplos Bots: Gerencie diversas operações com bots ilimitados.</li>
-            <li><i class="fas fa-pixel mr-3"></i> Múltiplos Pixels: Rastreie e otimize campanhas com pixels ilimitados.</li>
-        </ul>
-
-        <p class="text-gray-300 mb-8 text-center text-xl">Enquanto isso, comece a turbinar suas vendas com nosso **Plano FREE**!</p>
-        <button id="btnRegisterFreeFromPro" class="btn-unavailable-back w-full flex justify-center py-3 px-4 rounded-md shadow-lg text-lg font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
-            <i class="fas fa-user-plus mr-2"></i> Cadastrar Cliente FREE
-        </button>
-    </div>
-
-
-    <script>
-        const API_BASE_URL = 'https://lead-tracker-api-production.up.railway.app'; // Sua URL base da API Node.js
-
-        // Elementos da Landing Page
-        const landingPage = document.getElementById('landingPage');
-        const btnFree = document.getElementById('btnFree');
-        const btnProUnavailable = document.getElementById('btnProUnavailable');
-
-        // Elementos da Seção de Onboarding Free
-        const freeOnboardingSection = document.getElementById('freeOnboardingSection');
-        const onboardingForm = document.getElementById('onboardingForm');
-        const resultsDiv = document.getElementById('results');
-        const clientIdDisplay = document.getElementById('clientIdDisplay');
-        const getPresselHtmlBtn = document.getElementById('getPresselHtmlBtn');
-        const presselHtmlCode = document.getElementById('presselHtmlCode');
-        const copyPresselHtmlBtn = document.getElementById('copyPresselHtmlBtn');
-        // const contractProBtn = document.getElementById('contractProBtn'); // Removido, pois a seção PRO foi movida
-
-        // Elementos da Seção de Tutorial ManyChat
-        const tutorialSection = document.getElementById('tutorialSection'); 
-        const toggleTutorialButton = document.getElementById('toggleTutorial');
-        const tutorialContentDiv = document.getElementById('tutorialContent');
-
-        // Elementos da Página PRO Indisponível
-        const proUnavailablePage = document.getElementById('proUnavailablePage');
-        const btnRegisterFreeFromPro = document.getElementById('btnRegisterFreeFromPro');
-
-        // Funções para controlar a visibilidade das seções
-        function showSection(sectionToShow) {
-            landingPage.classList.add('hidden');
-            freeOnboardingSection.classList.add('hidden');
-            proUnavailablePage.classList.add('hidden');
-            resultsDiv.classList.add('hidden'); // Garante que resultsDiv esteja oculto inicialmente
-            tutorialSection.classList.add('hidden'); // Garante que tutorialSection esteja oculto inicialmente
-
-            sectionToShow.classList.remove('hidden');
-        }
-
-        // Event Listeners da Landing Page
-        btnFree.addEventListener('click', () => {
-            showSection(freeOnboardingSection);
-        });
-
-        btnProUnavailable.addEventListener('click', () => {
-            showSection(proUnavailablePage);
-        });
-
-        // Event Listener do botão "Cadastrar Cliente FREE" na página PRO Indisponível
-        btnRegisterFreeFromPro.addEventListener('click', () => {
-            showSection(freeOnboardingSection);
-        });
-
-        // Lógica para expandir/contrair a seção de tutorial visual
-        toggleTutorialButton.addEventListener('click', () => {
-            if (tutorialContentDiv.classList.contains('hidden')) {
-                tutorialContentDiv.classList.remove('hidden');
-                toggleTutorialButton.innerHTML = '<i class="fas fa-chevron-up mr-2"></i> Contrair Guia de Configuração';
-            } else {
-                tutorialContentDiv.classList.add('hidden');
-                toggleTutorialButton.innerHTML = '<i class="fas fa-chevron-down mr-2"></i> Expandir Guia de Configuração';
-            }
-        });
-
-        // Lógica de submissão do formulário de onboarding
-        onboardingForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const formData = new FormData(onboardingForm);
-            const data = Object.fromEntries(formData.entries());
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/onboardClient`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.status === 'success') {
-                    clientIdDisplay.textContent = result.client_id;
-                    
-                    // Oculta o formulário de onboarding
-                    onboardingForm.classList.add('hidden'); 
-
-                    // Mostra a seção de resultados e o guia do ManyChat
-                    resultsDiv.classList.remove('hidden');
-                    tutorialSection.classList.remove('hidden'); 
-                    tutorialContentDiv.classList.remove('hidden'); // Garante que o conteúdo do tutorial esteja expandido
-                    toggleTutorialButton.innerHTML = '<i class="fas fa-chevron-up mr-2"></i> Contrair Guia de Configuração';
-
-                } else {
-                    console.error(`Erro ao onboardar cliente: ${result.message || 'Erro desconhecido'}`);
-                }
-            } catch (error) {
-                console.error(`Erro de rede: ${error.message}`);
-            }
-        });
-
-        // Lógica para obter e copiar o código HTML da Pressel
-        getPresselHtmlBtn.addEventListener('click', async () => {
-            const clientId = clientIdDisplay.textContent;
-            if (!clientId) {
-                console.error('Client ID não encontrado. Por favor, onboarde um cliente primeiro.');
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/getClientPresselHtml?client_id=${clientId}`);
-                const htmlContent = await response.text(); // Recebe como texto/html
-
-                if (response.ok) {
-                    presselHtmlCode.textContent = htmlContent;
-                    presselHtmlCode.classList.remove('hidden');
-                    copyPresselHtmlBtn.classList.remove('hidden');
-                } else {
-                    console.error(`Erro ao obter pressel HTML: ${htmlContent || 'Erro desconhecido'}`);
-                }
-            } catch (error) {
-                console.error(`Erro de rede: ${error.message}`);
-            }
-        });
-
-        copyPresselHtmlBtn.addEventListener('click', () => {
-            const textToCopy = presselHtmlCode.textContent;
-            // Usando document.execCommand para compatibilidade em iframes
-            const textarea = document.createElement('textarea');
-            textarea.value = textToCopy;
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-            } catch (err) {
-                console.error('Erro ao copiar texto:', err);
-            }
-            document.body.removeChild(textarea);
-        });
-
-        // Inicializa a página mostrando apenas a landing page
-        document.addEventListener('DOMContentLoaded', () => {
-            showSection(landingPage);
-        });
-    </script>
+<body>
+  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+    <p>Redirecionando você...</p>
+  </div>
 </body>
 </html>
+    
