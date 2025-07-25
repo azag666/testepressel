@@ -52,12 +52,18 @@
   <!-- End Meta Pixel Code for 762701059469722 -->
 
   <script>
-    // A URL base da sua API no Render.com
-    const API_URL = 'https://lead-tracker-api.onrender.com/api/registerClick'; 
-    // O nome de usuário do bot do Telegram
+    // A URL base da sua API Node.js no Railway.app para registrar cliques
+    const API_URL = 'https://lead-tracker-api-railway-production.up.railway.app/api/registerClick'; 
+    // O nome de usuário do bot do Telegram para redirecionamento
     const TELEGRAM_USERNAME = 'Mariaduds_bot'; 
-    // O client_id que você deseja associar a este clique
-    const CLIENT_ID = '1D1QZDZD'; 
+    
+    // IMPORTANTE: O CLIENT_ID deve ser injetado dinamicamente pela sua API Node.js
+    // quando a pressel é gerada pela rota /api/getClientPresselHtml.
+    // Para testes manuais com esta pressel, você pode definir um CLIENT_ID fixo aqui,
+    // mas para uso em produção, a pressel deve ser gerada pela sua API.
+    // Exemplo para teste: const CLIENT_ID = 'SEU_CLIENT_ID_DE_TESTE_AQUI'; 
+    // Por enquanto, usaremos um placeholder que sua API substituiria.
+    const CLIENT_ID_PLACEHOLDER = 'INSERIR_CLIENT_ID_AQUI_PELA_API'; // Este valor seria substituído pela API
 
     // Função para obter um cookie pelo nome
     function getCookie(name) {
@@ -119,7 +125,11 @@
     // Função assíncrona para registrar o clique na sua API
     async function registrarClick(referer, fbclid, fbp) { 
       console.log('Iniciando registro de clique...');
-      console.log('Dados enviados para API:', { referer, fbclid, fbp, client_id: CLIENT_ID });
+      // Para esta pressel genérica, usaremos o placeholder.
+      // Em produção, a API injetaria o client_id real aqui.
+      const clientIdToUse = CLIENT_ID_PLACEHOLDER; 
+
+      console.log('Dados enviados para API:', { referer, fbclid, fbp, client_id: clientIdToUse });
       console.log('URL da API sendo usada:', API_URL); 
 
       try {
@@ -132,7 +142,7 @@
             referer: referer || '',
             fbclid: fbclid || '',
             fbp: fbp || '',
-            client_id: CLIENT_ID // Passa o client_id para a API
+            client_id: clientIdToUse // Passa o client_id para a API
           })
         });
 
