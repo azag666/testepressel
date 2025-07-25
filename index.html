@@ -6,12 +6,12 @@
   <title>Redirecionando...</title>
 
   <script>
-    // #################### DADOS CONFIGURADOS COM BASE NA SUA IMAGEM ####################
-    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; // URL da sua API no Railway
-    const TELEGRAM_USERNAME = 'Mariaduds_bot';   // <-- Pego da sua imagem
-    const PIXEL_ID = '762701059469722';        // <-- Pego da sua imagem
-    const CLIENT_ID = '123';                    // <-- Pego da sua imagem
-    // ##################################################################################
+    // #################### CONFIGURAÇÃO PARA O TESTE ####################
+    const API_URL = 'https://lead-tracker-api-kappa.vercel.app/api/registerClick';
+    const TELEGRAM_USERNAME = 'Mariaduds_bot';
+    const PIXEL_ID = '762701059469722';
+    const CLIENT_ID = '123';
+    // ##################################################################
 
 
     // Meta Pixel Code
@@ -38,7 +38,6 @@
 <body>
   <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
     <p>Redirecionando você...</p>
-    <p>Se o redirecionamento não ocorrer, <a href="#" id="manualRedirectLink">clique aqui para continuar</a>.</p>
   </div>
 
   <script>
@@ -78,18 +77,20 @@
         const data = await response.json();
         if (response.ok && data.status === 'success') {
           click_id_from_api = data.click_id;
-          console.log('API retornou click_id:', click_id_from_api);
         } else {
-          console.error('Erro ao registrar clique:', data.message);
+          console.error('Erro ao registrar clique (API response):', data.message);
         }
       } catch (error) {
         console.error('Erro de rede ao registrar clique:', error);
       }
 
-      const cleanClickId = click_id_from_api ? encodeURIComponent(click_id_from_api) : '';
-      const redirectUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${cleanClickId}`;
+      // Constrói a URL de redirecionamento com o click_id como parâmetro 'start'
+      let redirectUrl = `https://t.me/${TELEGRAM_USERNAME}`;
+      if (click_id_from_api) {
+        const encodedClickId = encodeURIComponent(click_id_from_api);
+        redirectUrl += `?start=${encodedClickId}`;
+      }
       
-      document.getElementById('manualRedirectLink').href = redirectUrl;
       console.log(`Redirecionando para: ${redirectUrl}`);
       window.location.replace(redirectUrl);
     }
