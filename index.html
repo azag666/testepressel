@@ -6,6 +6,15 @@
   <title>Redirecionando...</title>
 
   <script>
+    // #################### DADOS CONFIGURADOS COM BASE NA SUA IMAGEM ####################
+    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; // URL da sua API no Railway
+    const TELEGRAM_USERNAME = 'Mariaduds_bot';   // <-- Pego da sua imagem
+    const PIXEL_ID = '762701059469722';        // <-- Pego da sua imagem
+    const CLIENT_ID = '123';                    // <-- Pego da sua imagem
+    // ##################################################################################
+
+
+    // Meta Pixel Code
     !function(f,b,e,v,n,t,s){
       if(f.fbq)return;n=f.fbq=function(){
         n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
@@ -18,18 +27,21 @@
       s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)
     }(window, document,'script');
-    fbq('init', 'INSERIR_PIXEL_ID_AQUI_PELA_API'); 
+    fbq('init', PIXEL_ID); 
     fbq('track', 'PageView');
   </script>
   <noscript>
     <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=INSERIR_PIXEL_ID_AQUI_PELA_API&ev=PageView&noscript=1"/>
+      src="https://www.facebook.com/tr?id=" + PIXEL_ID + "&ev=PageView&noscript=1"/>
   </noscript>
-  <script>
-    const API_URL = '/api/registerClick'; // Usar caminho relativo
-    const TELEGRAM_USERNAME = 'INSERIR_TELEGRAM_BOT_AQUI_PELA_API'; 
-    const CLIENT_ID = 'INSERIR_CLIENT_ID_AQUI_PELA_API';
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+    <p>Redirecionando você...</p>
+    <p>Se o redirecionamento não ocorrer, <a href="#" id="manualRedirectLink">clique aqui para continuar</a>.</p>
+  </div>
 
+  <script>
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -42,44 +54,13 @@
       document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
     }
 
-    function getFbclid() {
+    async function registerClickAndRedirect() {
       const urlParams = new URLSearchParams(window.location.search);
-      return urlParams.get('fbclid');
-    }
-
-    function generateFbp() {
-      const timestamp = Date.now();
-      const random = Math.floor(Math.random() * 1e16);
-      return `fb.1.${timestamp}.${random}`;
-    }
-
-    function ensureFbp() {
+      const fbclid = urlParams.get('fbclid');
       let fbp = getCookie('_fbp');
       if (!fbp) {
-        fbp = generateFbp();
+        fbp = `fb.1.${Date.now()}.${Math.floor(Math.random() * 1e16)}`;
         setCookie('_fbp', fbp);
-      }
-      return fbp;
-    }
-
-    function ensureFbc(fbclid) {
-      if (!fbclid) return null;
-      const current = getCookie('_fbc');
-      if (current && current.endsWith(fbclid)) {
-        return current;
-      }
-      const timestamp = Date.now();
-      const fbc = `fb.1.${timestamp}.${fbclid}`;
-      setCookie('_fbc', fbc);
-      return fbc;
-    }
-
-    async function registerClickAndRedirect() {
-      const referer = document.referrer || '';
-      const fbclid = getFbclid();
-      const fbp = ensureFbp();
-      if (fbclid) {
-        ensureFbc(fbclid);
       }
 
       let click_id_from_api = null;
@@ -88,7 +69,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            referer,
+            referer: document.referrer || '',
             fbclid: fbclid || '',
             fbp: fbp || '',
             client_id: CLIENT_ID
@@ -97,6 +78,7 @@
         const data = await response.json();
         if (response.ok && data.status === 'success') {
           click_id_from_api = data.click_id;
+          console.log('API retornou click_id:', click_id_from_api);
         } else {
           console.error('Erro ao registrar clique:', data.message);
         }
@@ -104,35 +86,15 @@
         console.error('Erro de rede ao registrar clique:', error);
       }
 
-      // Limpa o click_id para ser usado na URL
-      const cleanClickId = click_id_from_api ? encodeURIComponent(click_id_from_api.replace(/[^a-zA-Z0-9]/g, '')) : '';
+      const cleanClickId = click_id_from_api ? encodeURIComponent(click_id_from_api) : '';
       const redirectUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${cleanClickId}`;
       
+      document.getElementById('manualRedirectLink').href = redirectUrl;
       console.log(`Redirecionando para: ${redirectUrl}`);
       window.location.replace(redirectUrl);
     }
 
-    // Adiciona um fallback para o link de redirecionamento manual
-    document.addEventListener('DOMContentLoaded', () => {
-        const manualLink = document.getElementById('manualRedirectLink');
-        if (manualLink) {
-            // Gera a URL de redirecionamento uma vez e a atribui ao link
-            const referer = document.referrer || '';
-            const fbclid = getFbclid();
-            const cleanClickId = fbclid ? encodeURIComponent(fbclid.substring(0, 10)) : ''; // Fallback simples
-            const fallbackUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${cleanClickId}`;
-            manualLink.href = fallbackUrl;
-        }
-    });
-
-    // Inicia o processo
     registerClickAndRedirect();
   </script>
-</head>
-<body>
-  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-    <p>Redirecionando você...</p>
-    <p>Se o redirecionamento não ocorrer, <a href="#" id="manualRedirectLink">clique aqui para continuar</a>.</p>
-  </div>
 </body>
 </html>
