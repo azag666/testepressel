@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,58 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecionando...</title>
 
-  
-    <!-- Meta Pixel Code for 562785649971766 -->
-    <script>
-      !function(f,b,e,v,n,t,s){
-        if(f.fbq)return;n=f.fbq=function(){
-          n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
-        };
-        if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];
-        t=b.createElement(e);t.async=!0;
-        t.src='https://connect.facebook.net/en_US/fbevents.js';
-        s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)
-      }(window, document,'script');
-      fbq('init', '562785649971766'); 
-      fbq('track', 'PageView');
-    </script>
-    <noscript>
-      <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=562785649971766&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Meta Pixel Code for 562785649971766 -->
+  <!-- Meta Pixel Code for 2157896137958065 -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script');
+    fbq('init', '2157896137958065'); 
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code for 2157896137958065 -->
 
-    <!-- Meta Pixel Code for 2157896137958065 -->
-    <script>
-      !function(f,b,e,v,n,t,s){
-        if(f.fbq)return;n=f.fbq=function(){
-          n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
-        };
-        if(!f._fbq)f._fbq=n;
-        n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];
-        t=b.createElement(e);t.async=!0;
-        t.src='https://connect.facebook.net/en_US/fbevents.js';
-        s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)
-      }(window, document,'script');
-      fbq('init', '2157896137958065'); 
-      fbq('track', 'PageView');
-    </script>
-    <noscript>
-      <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Meta Pixel Code for 2157896137958065 -->
-
+  <!-- Meta Pixel Code for 762701059469722 -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script');
+    fbq('init', '762701059469722'); 
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code for 762701059469722 -->
 
   <script>
-    const API_URL = 'lead-tracker-api-production.up.railway.app/api/registerClick'; 
+    // A URL base da sua API no Render.com
+    const API_URL = 'https://lead-tracker-api.onrender.com/api/registerClick'; 
+    // O nome de usuário do bot do Telegram
     const TELEGRAM_USERNAME = 'Mariaduds_bot'; 
+    // O client_id que você deseja associar a este clique
+    const CLIENT_ID = '1D1QZDZD'; 
 
+    // Função para obter um cookie pelo nome
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -65,11 +67,13 @@
       return null;
     }
 
+    // Função para definir um cookie
     function setCookie(name, value, days = 90) {
       const expires = new Date(Date.now() + days * 864e5).toUTCString();
       document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
     }
 
+    // Função para obter o fbclid da URL
     function getFbclid() {
       const urlParams = new URLSearchParams(window.location.search);
       const fbclid_val = urlParams.get('fbclid');
@@ -77,12 +81,14 @@
       return fbclid_val;
     }
 
+    // Função para gerar um novo _fbp (Facebook Browser ID)
     function generateFbp() {
       const timestamp = Date.now();
       const random = Math.floor(Math.random() * 1e16);
       return `fb.1.${timestamp}.${random}`;
     }
 
+    // Função para garantir que _fbp exista (gera se não existir, usa o existente se válido)
     function ensureFbp() {
       let fbp = getCookie('_fbp');
       if (!fbp) {
@@ -95,6 +101,7 @@
       return fbp;
     }
 
+    // Função para garantir que _fbc (Facebook Click ID) exista
     function ensureFbc(fbclid) {
       const current = getCookie('_fbc');
       if (current && current.endsWith(fbclid)) {
@@ -109,9 +116,10 @@
       return fbc;
     }
 
+    // Função assíncrona para registrar o clique na sua API
     async function registrarClick(referer, fbclid, fbp) { 
       console.log('Iniciando registro de clique...');
-      console.log('Dados enviados para API:', { referer, fbclid, fbp });
+      console.log('Dados enviados para API:', { referer, fbclid, fbp, client_id: CLIENT_ID });
       console.log('URL da API sendo usada:', API_URL); 
 
       try {
@@ -124,7 +132,7 @@
             referer: referer || '',
             fbclid: fbclid || '',
             fbp: fbp || '',
-            client_id: 'f2cccfb6-e88d-4430-afd6-a4aa105376be' 
+            client_id: CLIENT_ID // Passa o client_id para a API
           })
         });
 
@@ -150,43 +158,57 @@
       }
     }
 
+    // Função principal que executa a lógica de rastreamento e redirecionamento
     (async function main() {
       console.log('Iniciando script principal...');
 
-      const referer = document.referrer || '';
-      const fbclid = getFbclid();
-      const fbp = ensureFbp();
+      const referer = document.referrer || ''; // Obtém o referer
+      const fbclid = getFbclid(); // Obtém o fbclid da URL
+      const fbp = ensureFbp(); // Garante que o _fbp exista
 
       if (fbclid) {
-        ensureFbc(fbclid); 
+        ensureFbc(fbclid); // Garante que o _fbc exista se houver fbclid
       }
 
       console.log('Chamando registrarClick com referer:', referer, 'fbclid:', fbclid, 'e fbp:', fbp);
-      const click_id_from_api = await registrarClick(referer, fbclid, fbp);
+      const click_id_from_api = await registrarClick(referer, fbclid, fbp); // Registra o clique na API
 
       let redirectUrl;
       if (click_id_from_api) {
+        // Limpa o click_id removendo o prefixo "/start " se existir
         let cleanedClickId = click_id_from_api;
         if (cleanedClickId.startsWith('/start ')) {
             cleanedClickId = cleanedClickId.substring('/start '.length);
         }
-        cleanedClickId = cleanedClickId.trim(); 
+        cleanedClickId = cleanedClickId.trim(); // Remove espaços em branco extras
 
-        const encodedClickId = encodeURIComponent(cleanedClickId);
-        redirectUrl = `https://t.me/Mariaduds_bot?start=${encodedClickId}`; 
+        const encodedClickId = encodeURIComponent(cleanedClickId); // Codifica o click_id para URL
+        // Redireciona para o Telegram com o click_id no parâmetro 'start'
+        redirectUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${encodedClickId}`; 
         console.log('Click ID obtido. Redirecionando para Telegram do cliente com click_id (codificado):', redirectUrl);
       } else {
-        redirectUrl = `https://t.me/Mariaduds_bot`; 
+        // Se não conseguir obter o click_id, redireciona sem ele
+        redirectUrl = `https://t.me/${TELEGRAM_USERNAME}`; 
         console.log('Erro ao obter Click ID. Redirecionando para Telegram do cliente sem click_id:', redirectUrl);
       }
-      window.location.replace(redirectUrl); 
+      window.location.replace(redirectUrl); // Redireciona o navegador
     })();
   </script>
 </head>
 <body>
   <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
     <p>Redirecionando você...</p>
+    <p>Se o redirecionamento não ocorrer automaticamente, <a href="#" id="manualRedirectLink">clique aqui para continuar</a>.</p>
   </div>
+
+  <script>
+    // Adiciona um fallback para redirecionamento manual
+    document.getElementById('manualRedirectLink').addEventListener('click', function(event) {
+      event.preventDefault();
+      // A função main já cuida do redirecionamento, este é apenas um fallback visual
+      // Se o script principal falhou, o link manual usará a URL base do bot
+      window.location.replace(`https://t.me/${TELEGRAM_USERNAME}`);
+    });
+  </script>
 </body>
 </html>
-    
