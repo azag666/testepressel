@@ -6,34 +6,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecionando...</title>
 
-  <!-- Meta Pixel Code (Pode ser o Pixel do Cliente ou o Pixel do SaaS) -->
-  <script>
-    !function(f,b,e,v,n,t,s){
-      if(f.fbq)return;n=f.fbq=function(){
-        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
-      };
-      if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];
-      t=b.createElement(e);t.async=!0;
-      t.src='https://connect.facebook.net/en_US/fbevents.js';
-      s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)
-    }(window, document,'script');
-    fbq('init', '762701059469722'); // Pixel ID: Pode ser do cliente ou do SaaS
-    fbq('track', 'PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
-  </noscript>
-  <!-- End Meta Pixel Code -->
+  
+    <!-- Meta Pixel Code for 562785649971766 -->
+    <script>
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return;n=f.fbq=function(){
+          n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+        };
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);t.async=!0;
+        t.src='https://connect.facebook.net/en_US/fbevents.js';
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+      }(window, document,'script');
+      fbq('init', '562785649971766'); 
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=562785649971766&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code for 562785649971766 -->
+
+    <!-- Meta Pixel Code for 2157896137958065 -->
+    <script>
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return;n=f.fbq=function(){
+          n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+        };
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);t.async=!0;
+        t.src='https://connect.facebook.net/en_US/fbevents.js';
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+      }(window, document,'script');
+      fbq('init', '2157896137958065'); 
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code for 2157896137958065 -->
+
+    <!-- Meta Pixel Code for 762701059469722 -->
+    <script>
+      !function(f,b,e,v,n,t,s){
+        if(f.fbq)return;n=f.fbq=function(){
+          n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+        };
+        if(!f._fbq)f._fbq=n;
+        n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);t.async=!0;
+        t.src='https://connect.facebook.net/en_US/fbevents.js';
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)
+      }(window, document,'script');
+      fbq('init', '762701059469722'); 
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code for 762701059469722 -->
+
 
   <script>
-    // URL da sua API de rastreamento de leads (Node.js) para registrar cliques
-    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; 
-    
-    const TELEGRAM_USERNAME = 'Mariaduds_bot'; // Nome de usuário do bot Telegram do CLIENTE
+    const API_URL = 'lead-tracker-api-production.up.railway.app/api/registerClick'; 
+    const TELEGRAM_USERNAME = 'Mariaduds_bot'; 
 
     function getCookie(name) {
       const value = `; ${document.cookie}`;
@@ -101,7 +147,7 @@
             referer: referer || '',
             fbclid: fbclid || '',
             fbp: fbp || '',
-            client_id: '083076f3-b31c-43e3-9b30-d3c176b39427' // Adiciona o client_id para rastreamento
+            client_id: '950b123d-3355-4da2-8d80-9869c9c65af8' 
           })
         });
 
@@ -150,7 +196,7 @@
         cleanedClickId = cleanedClickId.trim(); 
 
         const encodedClickId = encodeURIComponent(cleanedClickId);
-        redirectUrl = `https://t.me/Mariaduds_bot?start=${encodedClickId}`; // Redireciona para o bot do CLIENTE
+        redirectUrl = `https://t.me/Mariaduds_bot?start=${encodedClickId}`; 
         console.log('Click ID obtido. Redirecionando para Telegram do cliente com click_id (codificado):', redirectUrl);
       } else {
         redirectUrl = `https://t.me/Mariaduds_bot`; 
