@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecionando...</title>
 
-  <!-- Meta Pixel Code for 2157896137958065 -->
+  <!-- Meta Pixel Code -->
   <script>
     !function(f,b,e,v,n,t,s){
       if(f.fbq)return;n=f.fbq=function(){
@@ -15,58 +15,28 @@
       n.push=n;n.loaded=!0;n.version='2.0';
       n.queue=[];
       t=b.createElement(e);t.async=!0;
-      t.src='[https://connect.facebook.net/en_US/fbevents.js](https://connect.facebook.net/en_US/fbevents.js)';
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
       s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)
     }(window, document,'script');
-    fbq('init', '2157896137958065'); 
+    fbq('init', '2157896137958065'); // Seu Pixel ID. Já está preenchido.
     fbq('track', 'PageView');
   </script>
   <noscript>
     <img height="1" width="1" style="display:none"
-      src="[https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1](https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1)"/>
+      src="https://www.facebook.com/tr?id=2157896137958065&ev=PageView&noscript=1"/>
   </noscript>
-  <!-- End Meta Pixel Code for 2157896137958065 -->
-
-  <!-- Meta Pixel Code for 762701059469722 -->
-  <script>
-    !function(f,b,e,v,n,t,s){
-      if(f.fbq)return;n=f.fbq=function(){
-        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
-      };
-      if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];
-      t=b.createElement(e);t.async=!0;
-      t.src='[https://connect.facebook.net/en_US/fbevents.js](https://connect.facebook.net/en_US/fbevents.js)';
-      s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)
-    }(window, document,'script');
-    fbq('init', '762701059469722'); 
-    fbq('track', 'PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="[https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1](https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1)"/>
-  </noscript>
-  <!-- End Meta Pixel Code for 762701059469722 -->
+  <!-- End Meta Pixel Code -->
 
   <script>
-    // A URL base da sua API Node.js no Railway.app para registrar cliques
-    // IMPORTANTE: Substitua esta URL pela URL real do seu servidor Railway após o deploy.
-    const API_URL = 'https://SEU_DOMINIO_RAILWAY.railway.app/api/registerClick'; 
-    // O nome de usuário do bot do Telegram para redirecionamento
-    const TELEGRAM_USERNAME = 'Mariaduds_bot'; 
+    // URL da sua API no Railway.app para registrar cliques
+    const API_URL = 'https://lead-tracker-api-production.up.railway.app/api/registerClick'; // URL CORRETA
     
-    // IMPORTANTE: O CLIENT_ID deve ser injetado dinamicamente pela sua API Node.js
-    // quando a pressel é gerada pela rota /api/getClientPresselHtml.
-    // Para testes manuais com esta pressel, você pode definir um CLIENT_ID fixo aqui,
-    // mas para uso em produção, a pressel deve ser gerada pela sua API.
-    // Exemplo para teste: const CLIENT_ID = 'SEU_CLIENT_ID_DE_TESTE_AQUI'; 
-    // Por enquanto, usaremos um placeholder que sua API substituiria.
-    const CLIENT_ID_PLACEHOLDER = 'INSERIR_CLIENT_ID_AQUI_PELA_API'; // Este valor seria substituído pela API
+    const TELEGRAM_USERNAME = 'Mariaduds_bot'; // <--- SEU NOME DE USUÁRIO DO BOT TELEGRAM AQUI!
 
-    // Função para obter um cookie pelo nome
+    // Funções de detecção de bot e dispositivo (cloaker) foram REMOVIDAS
+    // para garantir que TODOS os leads sejam processados e registrados.
+
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -74,63 +44,55 @@
       return null;
     }
 
-    // Função para definir um cookie
     function setCookie(name, value, days = 90) {
       const expires = new Date(Date.now() + days * 864e5).toUTCString();
       document.cookie = `${name}=${value}; expires=${expires}; path=/; SameSite=Lax`;
     }
 
-    // Função para obter o fbclid da URL
     function getFbclid() {
       const urlParams = new URLSearchParams(window.location.search);
       const fbclid_val = urlParams.get('fbclid');
-      console.log('FBCLID encontrado na URL:', fbclid_val);
+      console.log('FBCLID encontrado na URL:', fbclid_val); // Log para depuração
       return fbclid_val;
     }
 
-    // Função para gerar um novo _fbp (Facebook Browser ID)
     function generateFbp() {
       const timestamp = Date.now();
       const random = Math.floor(Math.random() * 1e16);
       return `fb.1.${timestamp}.${random}`;
     }
 
-    // Função para garantir que _fbp exista (gera se não existir, usa o existente se válido)
     function ensureFbp() {
       let fbp = getCookie('_fbp');
       if (!fbp) {
         fbp = generateFbp();
         setCookie('_fbp', fbp);
-        console.log('Novo _fbp gerado e salvo:', fbp);
+        console.log('Novo _fbp gerado e salvo:', fbp); // Log para depuração
       } else {
-        console.log('_fbp existente:', fbp);
+        console.log('_fbp existente:', fbp); // Log para depuração
       }
       return fbp;
     }
 
-    // Função para garantir que _fbc (Facebook Click ID) exista
     function ensureFbc(fbclid) {
       const current = getCookie('_fbc');
       if (current && current.endsWith(fbclid)) {
-        console.log('_fbc existente e válido:', current);
+        console.log('_fbc existente e válido:', current); // Log para depuração
         return current;
       }
 
       const timestamp = Date.now();
       const fbc = `fb.1.${timestamp}.${fbclid}`;
       setCookie('_fbc', fbc);
-      console.log('Novo _fbc gerado e salvo:', fbc);
+      console.log('Novo _fbc gerado e salvo:', fbc); // Log para depuração
       return fbc;
     }
 
-    // Função assíncrona para registrar o clique na sua API
+    // Função para registrar o clique na sua API Node.js/Express
+    // Agora passa fbclid e fbp para o backend
     async function registrarClick(referer, fbclid, fbp) { 
       console.log('Iniciando registro de clique...');
-      // Para esta pressel genérica, usaremos o placeholder.
-      // Em produção, a API injetaria o client_id real aqui.
-      const clientIdToUse = CLIENT_ID_PLACEHOLDER; 
-
-      console.log('Dados enviados para API:', { referer, fbclid, fbp, client_id: clientIdToUse });
+      console.log('Dados enviados para API:', { referer, fbclid, fbp });
       console.log('URL da API sendo usada:', API_URL); 
 
       try {
@@ -141,19 +103,18 @@
           },
           body: JSON.stringify({
             referer: referer || '',
-            fbclid: fbclid || '',
-            fbp: fbp || '',
-            client_id: clientIdToUse // Passa o client_id para a API
+            fbclid: fbclid || '', // Passa fbclid
+            fbp: fbp || ''       // Passa fbp
           })
         });
 
         const data = await response.json();
         console.log('Resposta da API:', data);
 
-        if (response.ok) {
+        if (response.ok) { // Verifica se a resposta HTTP foi bem-sucedida (status 2xx)
           if (data.status === 'success') {
             console.log('Registro de clique enviado com sucesso para a API. Click ID recebido:', data.click_id);
-            return data.click_id;
+            return data.click_id; // Retorna o click_id recebido da sua API (ex: "/start 000001")
           } else {
             console.error('Erro ao registrar click (API response):', data.message);
             return null; 
@@ -169,57 +130,48 @@
       }
     }
 
-    // Função principal que executa a lógica de rastreamento e redirecionamento
     (async function main() {
       console.log('Iniciando script principal...');
 
-      const referer = document.referrer || ''; // Obtém o referer
-      const fbclid = getFbclid(); // Obtém o fbclid da URL
-      const fbp = ensureFbp(); // Garante que o _fbp exista
+      const referer = document.referrer || ''; // Captura o referer
+      const fbclid = getFbclid(); // Obtém fbclid da URL
+      const fbp = ensureFbp(); // Garante que _fbp exista
 
+      // Garante que _fbc seja gerado e salvo se fbclid estiver presente
       if (fbclid) {
-        ensureFbc(fbclid); // Garante que o _fbc exista se houver fbclid
+        ensureFbc(fbclid); 
       }
 
       console.log('Chamando registrarClick com referer:', referer, 'fbclid:', fbclid, 'e fbp:', fbp);
-      const click_id_from_api = await registrarClick(referer, fbclid, fbp); // Registra o clique na API
+      const click_id_from_api = await registrarClick(referer, fbclid, fbp); // Passa fbclid e fbp
 
       let redirectUrl;
       if (click_id_from_api) {
-        // Limpa o click_id removendo o prefixo "/start " se existir
+        // Remove o prefixo "/start " do click_id ANTES de codificar para a URL do Telegram.
         let cleanedClickId = click_id_from_api;
         if (cleanedClickId.startsWith('/start ')) {
             cleanedClickId = cleanedClickId.substring('/start '.length);
         }
-        cleanedClickId = cleanedClickId.trim(); // Remove espaços em branco extras
+        // Remove quaisquer espaços extras que possam ter sobrado
+        cleanedClickId = cleanedClickId.trim(); 
 
-        const encodedClickId = encodeURIComponent(cleanedClickId); // Codifica o click_id para URL
-        // Redireciona para o Telegram com o click_id no parâmetro 'start'
-        redirectUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${encodedClickId}`; 
-        console.log('Click ID obtido. Redirecionando para Telegram do cliente com click_id (codificado):', redirectUrl);
+        // Codifica o click_id numérico para URL antes de adicioná-lo ao link do Telegram
+        const encodedClickId = encodeURIComponent(cleanedClickId);
+        redirectUrl = `https://t.me/${TELEGRAM_USERNAME}?start=${encodedClickId}`;
+        console.log('Click ID obtido. Redirecionando para Telegram com click_id (codificado):', redirectUrl);
       } else {
-        // Se não conseguir obter o click_id, redireciona sem ele
+        // Se não houver click_id (ex: erro na API), ainda redireciona para o Telegram, mas sem o parâmetro 'start'.
         redirectUrl = `https://t.me/${TELEGRAM_USERNAME}`; 
-        console.log('Erro ao obter Click ID. Redirecionando para Telegram do cliente sem click_id:', redirectUrl);
+        console.log('Erro ao obter Click ID. Redirecionando para Telegram sem click_id:', redirectUrl);
       }
-      window.location.replace(redirectUrl); // Redireciona o navegador
+      window.location.replace(redirectUrl); 
     })();
   </script>
 </head>
 <body>
   <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
     <p>Redirecionando você...</p>
-    <p>Se o redirecionamento não ocorrer automaticamente, <a href="#" id="manualRedirectLink">clique aqui para continuar</a>.</p>
+    <!-- Opcional: Adicionar um pequeno spinner CSS aqui -->
   </div>
-
-  <script>
-    // Adiciona um fallback para redirecionamento manual
-    document.getElementById('manualRedirectLink').addEventListener('click', function(event) {
-      event.preventDefault();
-      // A função main já cuida do redirecionamento, este é apenas um fallback visual
-      // Se o script principal falhou, o link manual usará a URL base do bot
-      window.location.replace(`https://t.me/${TELEGRAM_USERNAME}`);
-    });
-  </script>
 </body>
 </html>
