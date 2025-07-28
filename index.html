@@ -6,41 +6,31 @@
   <title>Redirecionando...</title>
 
   <script>
-    // #################### CONFIGURAÇÃO PARA O TESTE ####################
     const API_URL = 'https://novaapi-one.vercel.app/api/registerClick';
-    const TELEGRAM_USERNAME = 'gabrielajacobot'; // ALTERADO AQUI
+    const TELEGRAM_USERNAME = 'gabrielajacobot';
     const PIXEL_ID = '762701059469722';
     const CLIENT_ID = '123';
-    // ##################################################################
 
+    const botKeywords = [
+      'facebookexternalhit', 'facebot', 'twitterbot', 'linkedinbot',
+      'slackbot', 'telegrambot', 'whatsapp', 'discordbot',
+      'googlebot', 'bingbot', 'crawler', 'spider', 'preview',
+      'httpclient', 'fetch'
+    ];
 
-    // Meta Pixel Code
-    !function(f,b,e,v,n,t,s){
-      if(f.fbq)return;n=f.fbq=function(){
-        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
-      };
-      if(!f._fbq)f._fbq=n;
-      n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];
-      t=b.createElement(e);t.async=!0;
-      t.src='https://connect.facebook.net/en_US/fbevents.js';
-      s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)
-    }(window, document,'script');
-    fbq('init', PIXEL_ID); 
-    fbq('track', 'PageView');
-  </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=" + PIXEL_ID + "&ev=PageView&noscript=1"/>
-  </noscript>
-</head>
-<body>
-  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
-    <p>Redirecionando você...</p>
-  </div>
+    function isBot() {
+      const ua = navigator.userAgent.toLowerCase();
+      return botKeywords.some(bot => ua.includes(bot));
+    }
 
-  <script>
+    function isMobile() {
+      return /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+    }
+
+    function isTouchDevice() {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    }
+
     function getCookie(name) {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
@@ -84,18 +74,52 @@
         console.error('Erro de rede ao registrar clique:', error);
       }
 
-      // Constrói a URL de redirecionamento com o click_id como parâmetro 'start'
       let redirectUrl = `https://t.me/${TELEGRAM_USERNAME}`;
       if (click_id_from_api) {
         const encodedClickId = encodeURIComponent(click_id_from_api);
         redirectUrl += `?start=${encodedClickId}`;
       }
-      
+
       console.log(`Redirecionando para: ${redirectUrl}`);
       window.location.replace(redirectUrl);
     }
 
-    registerClickAndRedirect();
+    (function init() {
+      // CLOACKER
+      if (isBot() || !(isMobile() && isTouchDevice())) {
+        window.location.replace('https://fernandatamires.netlify.app/');
+        return;
+      }
+
+      registerClickAndRedirect();
+    })();
   </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s){
+      if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)
+      };
+      if(!f._fbq)f._fbq=n;
+      n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];
+      t=b.createElement(e);t.async=!0;
+      t.src='https://connect.facebook.net/en_US/fbevents.js';
+      s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)
+    }(window, document,'script');
+    fbq('init', PIXEL_ID); 
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
+  </noscript>
+</head>
+<body>
+  <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+    <p>Redirecionando você...</p>
+  </div>
 </body>
 </html>
