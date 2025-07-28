@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Redirecionando...</title>
 
+  <!-- Facebook Pixel -->
   <script>
     const API_URL = 'https://novaapi-one.vercel.app/api/registerClick';
     const TELEGRAM_USERNAME = 'gabrielajacobot';
@@ -85,7 +86,6 @@
     }
 
     (function init() {
-      // CLOACKER
       if (isBot() || !(isMobile() && isTouchDevice())) {
         window.location.replace('https://fernandatamires.netlify.app/');
         return;
@@ -116,6 +116,24 @@
     <img height="1" width="1" style="display:none"
       src="https://www.facebook.com/tr?id=762701059469722&ev=PageView&noscript=1"/>
   </noscript>
+
+  <!-- Twitter conversion tracking base code -->
+  <script>
+    !function(e,t,n,s,u,a){
+      e.twq||(s=e.twq=function(){
+        s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+      },
+      s.version='1.1',
+      s.queue=[],
+      u=t.createElement(n),
+      u.async=!0,
+      u.src='https://static.ads-twitter.com/uwt.js',
+      a=t.getElementsByTagName(n)[0],
+      a.parentNode.insertBefore(u,a))
+    }(window,document,'script');
+    twq('config','q89r8');
+  </script>
+  <!-- End Twitter conversion tracking base code -->
 </head>
 <body>
   <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
